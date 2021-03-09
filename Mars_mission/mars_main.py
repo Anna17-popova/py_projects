@@ -18,5 +18,13 @@ def training(prof):
     return render_template('professions.html', prof=prof, img=url)
 
 
+@app.route('/list_prof/<type>')
+def list_prof(type):
+    if type not in 'olul':
+        print('WRONG PARAMS')
+        return
+    return render_template('list_professions.html', type=type)
+
+
 if __name__ == '__main__':
     app.run(port=8070, host='127.0.0.1')
