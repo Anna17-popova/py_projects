@@ -13,9 +13,7 @@ def index():
 
 @app.route('/training/<prof>')
 def training(prof):
-    url = url_for('static', filename='img/ship.jpg')
-    print(url)
-    return render_template('professions.html', prof=prof, img=url)
+    return render_template('professions.html', prof=prof)
 
 
 @app.route('/list_prof/<type>')
@@ -24,6 +22,16 @@ def list_prof(type):
         print('WRONG PARAMS')
         return
     return render_template('list_professions.html', type=type)
+
+
+@app.route('/answer')
+@app.route('/auto_answer')
+def auto_answer():
+    title, surname, name, education, profession, sex, motivation, ready =\
+        'Анкета', 'Popova', 'Anna', '-', '-',\
+        'female', 'Всегда мечтал застрять на Марсе!', 'True'
+    return render_template('auto_answer.html', title=title, surname = surname, name=name, education=education,
+                           profession=profession, sex=sex, motivation=motivation, ready=ready)
 
 
 if __name__ == '__main__':
