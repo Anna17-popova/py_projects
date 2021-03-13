@@ -1,7 +1,20 @@
+from django.shortcuts import redirect
 from flask import Flask, render_template, url_for
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField
+from wtforms.validators import DataRequired
+
+
+class LoginForm(FlaskForm):
+    username = StringField('id астронавта', validators=[DataRequired()])
+    password = PasswordField('Пароль астронавта', validators=[DataRequired()])
+    username2 = StringField('id капитана', validators=[DataRequired()])
+    password2 = PasswordField('Пароль капитана', validators=[DataRequired()])
+    submit = SubmitField('Доступ')
 
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'my_secret_key'
 
 
 @app.route('/')
@@ -32,6 +45,14 @@ def auto_answer():
         'female', 'Всегда мечтал застрять на Марсе!', 'True'
     return render_template('auto_answer.html', title=title, surname = surname, name=name, education=education,
                            profession=profession, sex=sex, motivation=motivation, ready=ready)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        return redirect('/success')
+    return render_template('log.html', title='Авторизация', form=form)
 
 
 if __name__ == '__main__':
